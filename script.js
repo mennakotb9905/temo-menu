@@ -725,23 +725,31 @@ function clearSearch() {
 // 10. Waiter Call & Request Bill Modals
 // --------------------------------------------------------------------------
 function setupWaiterModal() {
-  callWaiterTrigger.addEventListener("click", () => {
-    const tableNum = trayTableInput.value.trim() || currentTable || "زائر";
-    triggerWaiterModal("طلب مساعدة الويتر", `تم إشعار الويتر بحضور لطاولة (${tableNum})! سيتوجه لطاولتك في ثوانٍ.`);
-  });
+  if (callWaiterTrigger) {
+    callWaiterTrigger.addEventListener("click", () => {
+      const tableNum = trayTableInput.value.trim() || currentTable || "زائر";
+      triggerWaiterModal("طلب مساعدة الويتر", `تم إشعار الويتر بحضور لطاولة (${tableNum})! سيتوجه لطاولتك في ثوانٍ.`);
+    });
+  }
 
-  requestBillTrigger.addEventListener("click", () => {
-    const tableNum = trayTableInput.value.trim() || currentTable || "زائر";
-    triggerWaiterModal("طلب الحساب والفاتورة", `تم إشعار الكاشير والويتر بتجهيز حساب طاولة (${tableNum}) وسيحضره لك فوراً.`);
-  });
+  if (requestBillTrigger) {
+    requestBillTrigger.addEventListener("click", () => {
+      const tableNum = trayTableInput.value.trim() || currentTable || "زائر";
+      triggerWaiterModal("طلب الحساب والفاتورة", `تم إشعار الكاشير والويتر بتجهيز حساب طاولة (${tableNum}) وسيحضره لك فوراً.`);
+    });
+  }
 
-  closeWaiterModalBtn.addEventListener("click", () => {
-    waiterModalWrap.style.display = "none";
-  });
+  if (closeWaiterModalBtn) {
+    closeWaiterModalBtn.addEventListener("click", () => {
+      waiterModalWrap.style.display = "none";
+    });
+  }
 
-  waiterModalBackdrop.addEventListener("click", () => {
-    waiterModalWrap.style.display = "none";
-  });
+  if (waiterModalBackdrop) {
+    waiterModalBackdrop.addEventListener("click", () => {
+      waiterModalWrap.style.display = "none";
+    });
+  }
 }
 
 function triggerWaiterModal(title, message) {
