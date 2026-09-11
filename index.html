@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>منيو مطعم Temo الرقمي | Hot Which</title>
+  <meta name="description" content="المنيو الرقمي الرسمي لمطعم Temo (تيمو هوت ويتش) - امسح واطلب مباشرة من طاولتك: شاورما، برجر، مشويات، بروست، كريب وغربي بأشهى طعم وأفضل أسعار.">
+  <meta name="theme-color" content="#0a0807">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+
+  <!-- Fonts: Cairo & Markazi Text -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Markazi+Text:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient Glowing Atmosphere -->
+  <div class="bg-atmosphere" aria-hidden="true">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-pit"></div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="menu-app-wrapper">
+
+    <!-- Top Restaurant Bar -->
+    <header class="table-topbar glass-panel">
+      <div class="topbar-inner">
+        <div class="brand-group">
+          <div class="brand-logo-frame">
+            <img src="assets/logo.jpg" alt="شعار مطعم تيمو" class="brand-logo" width="44" height="44">
+            <span class="pulse-status" title="المطعم متاح الآن"></span>
+          </div>
+          <div class="brand-text">
+            <h1 class="brand-title">Temo <span class="brand-sub">Hot Which</span></h1>
+            <span class="brand-badge">📍 ريست مول • أمام الجامعة الأهلية</span>
+          </div>
+        </div>
+
+        <!-- Table Info & Quick Call -->
+        <div class="topbar-actions">
+          <div class="table-tag glass-chip" id="table-tag-display" title="رقم الطاولة">
+            <span class="table-icon">🪑</span>
+            <span id="table-number-label">طاولة زائر</span>
+          </div>
+          <a href="tel:01034645003" class="call-action-btn glass-btn" aria-label="اتصل بالمطعم" title="اتصل: 01034645003">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Welcome Hero Showcase for Dine-In Guests -->
+    <section class="dine-hero glass-card">
+      <div class="dine-hero-header">
+        <div class="dine-badge-row">
+          <span class="dine-pill">📲 منيو الصالة الرقمي</span>
+          <span class="dine-pill highlight">✨ طازج يومياً على الطلب</span>
+        </div>
+        <h2 class="hero-welcome-text">أهلاً بك في مطعم <span class="flame-text">Temo</span></h2>
+        <p class="hero-tagline">تصفح الأصناف والأسعار بسهولة، واختر طلبك المفضل مباشرة من طاولتك</p>
+      </div>
+
+      <!-- Quick Search Bar -->
+      <div class="search-wrap">
+        <div class="search-box glass-panel">
+          <span class="search-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+          <input 
+            type="search" 
+            id="menu-search-input" 
+            class="search-field" 
+            placeholder="ابحث عن وجبة، ساندوتش، صوص أو مشروب..." 
+            aria-label="ابحث في أصناف المنيو"
+            autocomplete="off"
+          >
+          <button type="button" id="clear-search-btn" class="clear-search" aria-label="مسح البحث" style="display: none;">✕</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sticky Category Navigation Bar -->
+    <nav class="categories-nav glass-panel" id="categories-nav" aria-label="أقسام المنيو">
+      <div class="categories-scroll" id="categories-scroll">
+        <!-- Rendered dynamically by script.js -->
+      </div>
+    </nav>
+
+    <!-- Main Menu Content -->
+    <main class="menu-main-content">
+
+      <!-- Search State Banner (Shows only during active search) -->
+      <div class="search-status-bar glass-card" id="search-status-bar" style="display: none;">
+        <span class="search-status-text">نتائج البحث عن: <strong id="search-term-query">""</strong> (<span id="search-count-badge">0</span> صنف)</span>
+        <button type="button" class="reset-search-btn" id="reset-search-btn">عرض كل الأقسام</button>
+      </div>
+
+      <!-- Menu Categories & Items List Container -->
+      <div class="menu-sections-container" id="menu-sections-container">
+        <!-- Dynamic sections rendered by script.js -->
+      </div>
+
+      <!-- Empty Search Results State -->
+      <div class="empty-state glass-card" id="empty-state" style="display: none;">
+        <div class="empty-icon">🔍</div>
+        <h3 class="empty-title">عذراً، لم نجد أصناف مطابقة</h3>
+        <p class="empty-desc">جرّب البحث باسم آخر، مثل "برجر"، "شاورما"، "تومية"، أو "زنجر".</p>
+        <button type="button" class="glass-btn primary-btn" id="empty-reset-btn">تصفح كل المنيو</button>
+      </div>
+
+    </main>
+
+    <!-- Bottom Restaurant Table Actions -->
+    <section class="table-service-box glass-card">
+      <div class="service-box-inner">
+        <div class="service-meta">
+          <span class="service-icon">🛎️</span>
+          <div>
+            <h3 class="service-title">هل تحتاج مساعدة من الويتر؟</h3>
+            <p class="service-subtitle">اضغط لطلب الويتر لطاولتك، أو لطلب الحساب والفاتورة</p>
+          </div>
+        </div>
+        <div class="service-buttons">
+          <button type="button" class="service-action-btn waiter-btn" id="call-waiter-trigger">
+            <span>🛎️ استدعاء الويتر</span>
+          </button>
+          <button type="button" class="service-action-btn bill-btn" id="request-bill-trigger">
+            <span>💳 طلب الحساب</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="menu-footer glass-panel">
+      <div class="footer-container">
+        <div class="footer-restaurant-info">
+          <img src="assets/logo.jpg" alt="Temo Logo" class="footer-logo" width="36" height="36">
+          <div>
+            <h4 class="footer-title">مطعم Temo (Hot Which)</h4>
+            <p class="footer-loc">📍 طوخ طنبشا - ريست مول (Rest Mall) أمام الجامعة الأهلية</p>
+          </div>
+        </div>
+        <div class="footer-hotlines">
+          <a href="tel:01034645003" class="hotline-link">📞 دليفري وحجز: 01034645003</a>
+          <a href="https://wa.me/201034645003" target="_blank" rel="noopener noreferrer" class="hotline-link wa">💬 واتساب المطعم</a>
+        </div>
+        <div class="footer-sub">
+          <p class="footer-copy">© 2025 منيو مطعم تيمو الرقمي • تصميم وتطوير: <strong class="dev-name">Menna Kotb</strong></p>
+          <a href="print-stand.html" class="print-link" title="طباعة ستاند طاولة مجهز بكود QR">🖨️ طباعة ستاند الطاولة (QR Stand)</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Floating Sticky Order / Bill Bar (Appears when items are added) -->
+  <aside class="floating-order-bar glass-panel" id="floating-order-bar" aria-label="ملخص طلب الطاولة" style="display: none;">
+    <div class="floating-order-inner">
+      <div class="order-summary-details">
+        <div class="order-badge-pill">
+          <span class="order-items-badge" id="bar-items-count">0</span>
+          <span>أصناف</span>
+        </div>
+        <div class="order-total-price">
+          <span class="total-label">الإجمالي:</span>
+          <span class="total-amount flame-text" id="bar-total-amount">0</span>
+          <span class="currency">ج.م</span>
+        </div>
+      </div>
+      <div class="order-action-btns">
+        <button type="button" class="view-tray-btn glass-btn" id="open-tray-btn">
+          <span>عرض الطلب والفاتورة</span>
+          <span class="btn-arrow">←</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Interactive Order Tray & Bill Modal / Drawer -->
+  <div class="order-tray-modal" id="order-tray-modal" role="dialog" aria-modal="true" aria-labelledby="tray-title" style="display: none;">
+    <div class="tray-backdrop" id="tray-backdrop"></div>
+    <div class="tray-sheet glass-card">
+      <div class="tray-handle" aria-hidden="true"></div>
+      
+      <div class="tray-header">
+        <div class="tray-title-wrap">
+          <h2 class="tray-title flame-text" id="tray-title">📋 طلب الطاولة والفاتورة</h2>
+          <span class="tray-subtitle">تأكد من طلباتك وأرسلها أو اطلب الحساب</span>
+        </div>
+        <button type="button" class="close-tray-btn" id="close-tray-btn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <!-- Table Number Input Field -->
+      <div class="tray-table-box glass-panel">
+        <label for="tray-table-input" class="table-input-label">🪑 رقم طاولتك في الصالة:</label>
+        <div class="table-input-row">
+          <input 
+            type="number" 
+            id="tray-table-input" 
+            class="table-input" 
+            placeholder="مثال: 5" 
+            min="1" 
+            max="99"
+          >
+          <span class="table-note">(مكتوب على ستاند الطاولة)</span>
+        </div>
+      </div>
+
+      <!-- Tray Items List -->
+      <div class="tray-items-list" id="tray-items-list">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Order Notes Field -->
+      <div class="tray-notes-box">
+        <label for="tray-notes-input" class="notes-label">📝 ملاحظات خاصة للشيف (اختياري):</label>
+        <input 
+          type="text" 
+          id="tray-notes-input" 
+          class="notes-input glass-input" 
+          placeholder="مثال: كاتشب زيادة، تومية خارجية، بدون هاليبينو..." 
+          maxlength="150"
+        >
+      </div>
+
+      <!-- Bill Calculation Breakdown -->
+      <div class="tray-bill-breakdown glass-panel">
+        <div class="bill-row">
+          <span>مجموع الأصناف:</span>
+          <span id="tray-subtotal-val">0 ج.م</span>
+        </div>
+        <div class="bill-row">
+          <span>الخدمة والضريبة:</span>
+          <span class="free-text">شاملة ومجاناً</span>
+        </div>
+        <div class="bill-row grand-total">
+          <span>المبلغ الإجمالي للدفع:</span>
+          <strong class="flame-text" id="tray-total-val">0 ج.م</strong>
+        </div>
+      </div>
+
+      <!-- Order Action Buttons -->
+      <div class="tray-actions-grid">
+        <button type="button" class="tray-btn wa-order-btn" id="send-wa-order-btn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.01-1.24-.74-.66-1.24-1.48-1.39-1.73-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.84-.86 2.05s.88 2.38 1 2.54c.13.17 1.73 2.64 4.2 3.7.59.25 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.29z"/>
+          </svg>
+          <span>إرسال الطلب عبر واتساب المطعم</span>
+        </button>
+        <button type="button" class="tray-btn waiter-order-btn" id="call-waiter-order-btn">
+          <span>🛎️ طلب الويتر لاستلام الطلب</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Quick Waiter Alert Modal -->
+  <div class="waiter-modal-wrap" id="waiter-modal-wrap" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="waiter-modal-title">
+    <div class="waiter-backdrop" id="waiter-modal-backdrop"></div>
+    <div class="waiter-dialog glass-card">
+      <div class="waiter-bell-anim">🛎️</div>
+      <h3 class="waiter-title" id="waiter-modal-title">خدمة طاولة تيمو</h3>
+      <p class="waiter-msg" id="waiter-modal-msg">تم إشعار الويتر! سيتوجه لطاولتك فوراً لمساعدتك.</p>
+      <div class="waiter-details-pill" id="waiter-table-info">طاولة رقم: <strong>زائر</strong></div>
+      <button type="button" class="glass-btn primary-btn close-waiter-modal-btn" id="close-waiter-modal-btn">حسناً، شكراً</button>
+    </div>
+  </div>
+
+  <!-- Toast Message -->
+  <div id="toast-notify" class="toast-notify glass-card" role="status" aria-live="polite"></div>
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>

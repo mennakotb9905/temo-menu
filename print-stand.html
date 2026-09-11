@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ستاند طاولة المنيو الرقمي QR | مطعم Temo</title>
+  <meta name="description" content="تصميم ستاند طاولات أكريليك وورقي جاهز للطباعة المباشرة لمطعم تيمو (Hot Which) مع كود الـ QR الرسمي">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Markazi+Text:wght@700&display=swap" rel="stylesheet">
+
+  <!-- Client-side QRCode lib for live interactive URL editing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #0d0a08;
+      --card-bg: #17110e;
+      --gold: #ffe066;
+      --orange: #ff6a00;
+      --amber: #ff9e00;
+      --border: rgba(255, 120, 20, 0.35);
+      --font-cairo: 'Cairo', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: #fff;
+      font-family: var(--font-cairo);
+      direction: rtl;
+      text-align: right;
+      min-height: 100vh;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Screen Control Toolbar (Hidden when printing) */
+    .screen-toolbar {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(26, 20, 16, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .toolbar-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .form-row label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #d6c2b2;
+    }
+
+    .form-input {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      outline: none;
+      font-family: inherit;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .form-input:focus {
+      border-color: var(--amber);
+    }
+
+    .table-num-input {
+      direction: rtl;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 800;
+      width: 120px;
+    }
+
+    .toolbar-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.86rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      border: none;
+      font-family: inherit;
+    }
+
+    .btn-print {
+      background: linear-gradient(135deg, var(--orange), #d91c38);
+      color: #fff;
+      flex: 1;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(255, 106, 0, 0.4);
+    }
+
+    .btn-print:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-download {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      color: var(--gold);
+    }
+
+    .btn-menu {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #d6c2b2;
+    }
+
+    /* -------------------------------------------------------------
+       Printable Table Stand Tent Card (A5 / A6 Portrait Aspect)
+       ------------------------------------------------------------- */
+    .stand-card-outer {
+      width: 100%;
+      max-width: 440px;
+      background: #0f0b08;
+      border: 2px solid var(--amber);
+      border-radius: 20px;
+      padding: 30px 24px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 106, 0, 0.25);
+      overflow: hidden;
+    }
+
+    /* Ambient Corner Accents */
+    .stand-card-outer::before {
+      content: "";
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, var(--orange), transparent 70%);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .stand-card-outer::after {
+      content: "";
+      position: absolute;
+      bottom: -40px;
+      left: -40px;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, #801205, transparent 70%);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .stand-logo-frame {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+      box-shadow: 0 0 20px rgba(255, 106, 0, 0.5);
+    }
+
+    .stand-logo {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .stand-restaurant-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 2px;
+    }
+
+    .stand-tagline {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--amber);
+      margin-bottom: 14px;
+    }
+
+    .table-indicator-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 158, 0, 0.15);
+      border: 1.5px solid var(--amber);
+      padding: 5px 18px;
+      border-radius: 9999px;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    .qr-frame-box {
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 16px;
+      display: inline-block;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+      margin-bottom: 16px;
+      border: 4px solid var(--gold);
+    }
+
+    #qr-canvas-holder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 220px;
+      height: 220px;
+    }
+
+    #qr-canvas-holder img, #qr-canvas-holder canvas {
+      width: 220px !important;
+      height: 220px !important;
+      display: block;
+    }
+
+    .scan-instruction-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .scan-instruction-sub {
+      font-size: 0.85rem;
+      color: #d6c2b2;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+
+    .stand-features-ribbon {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .feature-tag {
+      font-size: 0.76rem;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      color: #fdfaf6;
+    }
+
+    .stand-footer-meta {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 12px;
+      font-size: 0.8rem;
+      color: #a68b77;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stand-footer-meta strong {
+      color: #fff;
+    }
+
+    .wifi-info-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px dashed rgba(255, 158, 0, 0.35);
+      border-radius: 8px;
+      padding: 6px 12px;
+      margin: 8px 0;
+      font-size: 0.8rem;
+      color: var(--gold);
+    }
+
+    /* -------------------------------------------------------------
+       Print Media Query - Optimizes strictly for clean paper print
+       ------------------------------------------------------------- */
+    @media print {
+      body {
+        background: transparent !important;
+        color: #000 !important;
+        padding: 0 !important;
+      }
+
+      .screen-toolbar {
+        display: none !important;
+      }
+
+      .stand-card-outer {
+        max-width: 100% !important;
+        width: 148mm !important; /* A5 width */
+        margin: 0 auto !important;
+        box-shadow: none !important;
+        border: 2px solid #000 !important;
+        background: #fff !important;
+        color: #000 !important;
+        page-break-inside: avoid;
+        padding: 20mm 15mm !important;
+      }
+
+      .stand-card-outer::before, .stand-card-outer::after {
+        display: none !important;
+      }
+
+      .stand-restaurant-title {
+        color: #000 !important;
+      }
+
+      .stand-tagline {
+        color: #d9480f !important;
+      }
+
+      .table-indicator-badge {
+        background: #f8f9fa !important;
+        border: 1.5px solid #000 !important;
+        color: #000 !important;
+      }
+
+      .qr-frame-box {
+        border: 3px solid #000 !important;
+        box-shadow: none !important;
+      }
+
+      .scan-instruction-title {
+        color: #000 !important;
+      }
+
+      .scan-instruction-sub {
+        color: #333 !important;
+      }
+
+      .feature-tag {
+        background: #f1f3f5 !important;
+        border: 1px solid #ccc !important;
+        color: #000 !important;
+      }
+
+      .wifi-info-box {
+        background: #f8f9fa !important;
+        border: 1px dashed #333 !important;
+        color: #000 !important;
+      }
+
+      .stand-footer-meta {
+        color: #555 !important;
+        border-top: 1px solid #ccc !important;
+      }
+      .stand-footer-meta strong {
+        color: #000 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen Management Toolbar -->
+  <aside class="screen-toolbar" aria-label="أدوات تجهيز الستاند والطباعة">
+    <h2 class="toolbar-title">⚙️ تخصيص ستاند الطاولة وكود الـ QR</h2>
+    
+    <div class="form-row">
+      <label for="qr-target-url">🔗 رابط المنيو المستهدف (الذي يفتحه الـ QR عند المسح):</label>
+      <input 
+        type="url" 
+        id="qr-target-url" 
+        class="form-input" 
+        value="https://mennakotb9905.github.io/temo-menu/"
+      >
+    </div>
+
+    <div style="display: flex; gap: 12px;">
+      <div class="form-row" style="flex: 1;">
+        <label for="table-num-input">🪑 رقم الطاولة (اختياري):</label>
+        <input 
+          type="text" 
+          id="table-num-input" 
+          class="form-input table-num-input" 
+          placeholder="مثال: 5"
+        >
+      </div>
+      <div class="form-row" style="flex: 1;">
+        <label for="wifi-pass-input">📶 كلمة سر الواي فاي (اختياري):</label>
+        <input 
+          type="text" 
+          id="wifi-pass-input" 
+          class="form-input" 
+          placeholder="مثال: Temo@2025" 
+          value="Temo-Guest"
+        >
+      </div>
+    </div>
+
+    <div class="toolbar-buttons">
+      <button type="button" class="btn btn-print" onclick="window.print()">
+        🖨️ طباعة الستاند الآن (Ctrl + P)
+      </button>
+      <a href="qr-code.png" download="temo-qr-code.png" class="btn btn-download">
+        ⬇️ تحميل كود QR صورة
+      </a>
+      <a href="index.html" class="btn btn-menu">
+        ← فتح المنيو الرقمي
+      </a>
+    </div>
+  </aside>
+
+  <!-- Printable Table Stand Tent Card -->
+  <main class="stand-card-outer" id="printable-stand">
+    <div class="stand-logo-frame">
+      <img src="assets/logo.jpg" alt="شعار مطعم تيمو" class="stand-logo">
+    </div>
+
+    <h1 class="stand-restaurant-title">مطعم Temo</h1>
+    <p class="stand-tagline">Hot Which • أشهى شاورما وبرجر ومشويات</p>
+
+    <div class="table-indicator-badge" id="stand-table-badge">
+      <span>🪑 طاولة الصالة</span>
+    </div>
+
+    <!-- QR Code Visual Display -->
+    <div class="qr-frame-box">
+      <div id="qr-canvas-holder">
+        <!-- Live generated QR Code -->
+      </div>
+    </div>
+
+    <h2 class="scan-instruction-title">امسح الكود بكاميرا الموبايل</h2>
+    <p class="scan-instruction-sub">لتصفح المنيو الرقمي، الأسعار، وحساب فاتورتك مباشرة من طاولتك</p>
+
+    <div class="stand-features-ribbon">
+      <span class="feature-tag">⚡ تصفح سريع بدون انتظار</span>
+      <span class="feature-tag">🍔 87 صنفاً بأسعارها</span>
+      <span class="feature-tag">🛎️ طلب الويتر بضغطة زر</span>
+    </div>
+
+    <div class="wifi-info-box" id="stand-wifi-box">
+      <span>📶 واي فاي المطعم مجاناً: <strong id="wifi-name-val">Temo-Guest</strong></span>
+    </div>
+
+    <div class="stand-footer-meta">
+      <p>📍 طوخ طنبشا - ريست مول (Rest Mall) أمام الجامعة الأهلية</p>
+      <p>📞 دليفري وحجز: <strong>01034645003</strong></p>
+      <p style="font-size: 0.72rem; opacity: 0.7; margin-top: 4px;">تصميم وتطوير: <strong>Menna Kotb</strong></p>
+    </div>
+  </main>
+
+  <script>
+    const qrTargetInput = document.getElementById('qr-target-url');
+    const tableNumInput = document.getElementById('table-num-input');
+    const wifiPassInput = document.getElementById('wifi-pass-input');
+    const qrHolder = document.getElementById('qr-canvas-holder');
+    const standTableBadge = document.getElementById('stand-table-badge');
+    const wifiNameVal = document.getElementById('wifi-name-val');
+
+    let qrcodeInstance = null;
+
+    function renderQRCode() {
+      let baseUrl = qrTargetInput.value.trim();
+      const tableNum = tableNumInput.value.trim();
+
+      if (!baseUrl) {
+        baseUrl = 'https://mennakotb9905.github.io/temo-menu/';
+      }
+
+      let finalUrl = baseUrl;
+      if (tableNum) {
+        finalUrl += (baseUrl.includes('?') ? '&' : '?') + 'table=' + encodeURIComponent(tableNum);
+        standTableBadge.innerHTML = `<span>🪑 طاولة رقم: <strong>${tableNum}</strong></span>`;
+      } else {
+        standTableBadge.innerHTML = `<span>🪑 طاولة الصالة</span>`;
+      }
+
+      qrHolder.innerHTML = '';
+      try {
+        if (typeof QRCode !== 'undefined') {
+          qrcodeInstance = new QRCode(qrHolder, {
+            text: finalUrl,
+            width: 220,
+            height: 220,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+          });
+        } else {
+          // Fallback to static generated image
+          qrHolder.innerHTML = '<img src="qr-code.png" alt="كود QR لمنيو تيمو" width="220" height="220">';
+        }
+      } catch (e) {
+        qrHolder.innerHTML = '<img src="qr-code.png" alt="كود QR لمنيو تيمو" width="220" height="220">';
+      }
+    }
+
+    qrTargetInput.addEventListener('input', renderQRCode);
+    tableNumInput.addEventListener('input', renderQRCode);
+    wifiPassInput.addEventListener('input', () => {
+      wifiNameVal.textContent = wifiPassInput.value.trim() || 'Temo-Guest';
+    });
+
+    // Initial render
+    window.addEventListener('DOMContentLoaded', renderQRCode);
+  </script>
+</body>
+</html>
